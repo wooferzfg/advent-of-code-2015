@@ -10,21 +10,18 @@ public class Day16
 		BufferedReader br = new BufferedReader(new FileReader(new File("").getAbsolutePath() + "/bin/day16.txt"));
 		String input;
 		int n = 1;
-		boolean day1 = false, day2 = false;
 		do
 		{
 			input = br.readLine();
 			if (input != null)
 			{
-				if (parseInput(input, false) && !day1)
+				if (parseInput(input, false))
 				{
 					System.out.println("Part 1: " + n);
-					day1 = true;
 				}
-				if (parseInput(input, true) && !day2)
+				if (parseInput(input, true))
 				{
 					System.out.println("Part 2: " + n);
-					day2 = true;
 				}
 			}
 			n++;
