@@ -18,12 +18,12 @@ public class Day16
 			{
 				if (parseInput(input, false) && !day1)
 				{
-					System.out.println("Day 1: " + n);
+					System.out.println("Part 1: " + n);
 					day1 = true;
 				}
 				if (parseInput(input, true) && !day2)
 				{
-					System.out.println("Day 2: " + n);
+					System.out.println("Part 2: " + n);
 					day2 = true;
 				}
 			}
