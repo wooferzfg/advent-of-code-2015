@@ -1,5 +1,5 @@
 # Advent Of Code Solutions in Java
-[ ] Day 1  
+[X] Day 1  
 [ ] Day 2  
 [ ] Day 3  
 [X] Day 4  
