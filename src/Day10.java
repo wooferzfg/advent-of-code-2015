@@ -1,10 +1,22 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Arrays;
 
 public class Day10
 {
-	public static void main(String[] args)
+	public static void main(String[] args) throws IOException
 	{
-		byte[] num = new byte[] { 1, 1, 1, 3, 1, 2, 2, 1, 1, 3 };
+		BufferedReader br = new BufferedReader(new FileReader(new File("").getAbsolutePath() + "/bin/day10.txt"));
+		String input = br.readLine();
+		br.close();
+		byte[] num = new byte[10];
+		for (int x = 0; x < input.length(); x++)
+		{
+			num[x] = Byte.parseByte(input.substring(x, x + 1));
+		}
+
 		for (int x = 1; x <= 50; x++)
 		{
 			num = convertNum(num);

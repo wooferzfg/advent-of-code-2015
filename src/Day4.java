@@ -1,3 +1,7 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -26,10 +30,13 @@ public class Day4
 		}
 	}
 
-	public static void main(String[] args)
+	public static void main(String[] args) throws IOException
 	{
-		System.out.println("Part 1: " + getNumberForHash(5, "iwrupvqb"));
-		System.out.println("Part 2: " + getNumberForHash(6, "iwrupvqb"));
+		BufferedReader br = new BufferedReader(new FileReader(new File("").getAbsolutePath() + "/bin/day4.txt"));
+		String input = br.readLine();
+		System.out.println("Part 1: " + getNumberForHash(5, input));
+		System.out.println("Part 2: " + getNumberForHash(6, input));
+		br.close();
 	}
 
 	public static int getNumberForHash(int zeros, String hash)
@@ -38,8 +45,8 @@ public class Day4
 		String md5;
 		do
 		{
-			md5 = getMD5(hash + num);
 			num++;
+			md5 = getMD5(hash + num);
 		}
 		while (!md5.substring(0, zeros).equals(new String(new char[zeros]).replace("\0", "0")));
 		return num;
