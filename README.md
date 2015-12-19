@@ -5,7 +5,7 @@
 [X] Day 4  
 [X] Day 5  
 [X] Day 6  
-[ ] Day 7  
+[X] Day 7  
 [X] Day 8  
 [X] Day 9  
 [X] Day 10  
