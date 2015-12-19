@@ -1,8 +1,16 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+
 public class Day11
 {
-	public static void main(String[] args)
+	public static void main(String[] args) throws IOException
 	{
-		String part1Answer = getPassword("cqjxjnds");
+		BufferedReader br = new BufferedReader(new FileReader(new File("").getAbsolutePath() + "/bin/day11.txt"));
+		String password = br.readLine();
+		br.close();
+		String part1Answer = getPassword(password);
 		System.out.println("Part 1: " + part1Answer);
 		System.out.println("Part 2: " + getPassword(part1Answer));
 	}
