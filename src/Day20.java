@@ -50,7 +50,7 @@ public class Day20
 
 	/*
 	 * 	Each elf only delivers to 50 houses.
-	 *  So for house h and elf e, h <= 50 * e
+	 *	So for house h and elf e, h <= 50 * e
 	 */
 	public static int getSumOfFactorsPart2(int h)
 	{
@@ -58,10 +58,6 @@ public class Day20
 		int root = (int)Math.sqrt(h);
 		for (int e = 1; e <= root; e++)
 		{
-			/*
-			 * 	h <= 50 * e and h = e * e
-			 * 	So e > 50
-			 */
 			if (e * e == h && e > 50)
 			{
 				total += e;
@@ -72,10 +68,6 @@ public class Day20
 				{
 					total += e;
 				}
-				/*
-				 * 	h <= 50 * (h / e)
-				 * 	So e <= 50
-				 */
 				if (e <= 50)
 				{
 					total += h / e;
