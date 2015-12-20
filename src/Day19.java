@@ -10,14 +10,13 @@ public class Day19
 	{
 		BufferedReader br = new BufferedReader(new FileReader(new File("").getAbsolutePath() + "/bin/day19.txt"));
 		String input;
-		ArrayList<String> keys = new ArrayList<String>();
-		ArrayList<String> values = new ArrayList<String>();
+		ArrayList<Pair> pairs = new ArrayList<Pair>();
 		do
 		{
 			input = br.readLine();
 			if (input.length() > 0)
 			{
-				addReplacement(input, keys, values);
+				addReplacement(input, pairs);
 			}
 		}
 		while (input.length() > 0);
@@ -27,34 +26,35 @@ public class Day19
 
 		ArrayList<String> chemicals = new ArrayList<String>();
 		int n = 0;
-		for (String key : keys)
+		for (Pair pair : pairs)
 		{
-			addChemicals(chemical, key, values.get(n), chemicals);
+			addChemicals(chemical, pair.key, pair.value, chemicals);
 			n++;
 		}
 
 		System.out.println("Part 1: " + chemicals.size());
-		System.out.println("Part 2: " + fixChemical(chemical, keys, values));
+		System.out.println("Part 2: " + fixChemical(chemical, pairs));
 	}
 
-	public static int fixChemical(String chemical, ArrayList<String> keys, ArrayList<String> values)
+	public static int fixChemical(String chemical, ArrayList<Pair> pairs)
 	{
 		int n = 0;
 		while (!chemical.equals("e"))
 		{
 			int lastIndex = -1;
-			String replaceVal = "";
-			for (String val : values)
+			Pair replacePair = null;
+			for (Pair pair : pairs)
 			{
-				int index = chemical.lastIndexOf(val);
+				String value = pair.value;
+				int index = chemical.lastIndexOf(value);
 				if (index > lastIndex)
 				{
 					lastIndex = index;
-					replaceVal = val;
+					replacePair = pair;
 				}
 			}
 			String firstPart = chemical.substring(0, lastIndex);
-			String secondPart = chemical.substring(lastIndex).replaceFirst(replaceVal, keys.get(values.indexOf(replaceVal)));
+			String secondPart = chemical.substring(lastIndex).replaceFirst(replacePair.value, replacePair.key);
 			chemical = firstPart + secondPart;
 			n++;
 		}
@@ -79,10 +79,21 @@ public class Day19
 		}
 	}
 
-	public static void addReplacement(String input, ArrayList<String> keys, ArrayList<String> values)
+	public static void addReplacement(String input, ArrayList<Pair> pairs)
 	{
 		String[] splitted = input.split(" ");
-		keys.add(splitted[0]);
-		values.add(splitted[2]);
+		pairs.add(new Pair(splitted[0], splitted[2]));
+	}
+}
+
+class Pair
+{
+	public String key;
+	public String value;
+
+	public Pair(String k, String v)
+	{
+		key = k;
+		value = v;
 	}
 }
