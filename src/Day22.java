@@ -8,7 +8,6 @@ public class Day22
 {
 	public static int bossHP;
 	public static int bossDamage;
-	public static int overallMinCost;
 	public static boolean hardMode;
 
 	public static ArrayList<Spell> spells;
@@ -21,19 +20,17 @@ public class Day22
 		State state = new State(new ArrayList<Effect>(), 50, bossHP, 500);
 
 		hardMode = false;
-		overallMinCost = -1;
-		System.out.println("Part 1: " + getMinCost(state, 0));
+		System.out.println("Part 1: " + getMinCost(state, 0, -1));
 
 		hardMode = true;
-		overallMinCost = -1;
-		System.out.println("Part 2: " + getMinCost(state, 0));
+		System.out.println("Part 2: " + getMinCost(state, 0, -1));
 	}
 
-	public static int getMinCost(State state, int costSoFar)
+	public static int getMinCost(State state, int costSoFar, int minCost)
 	{
 		if (hardMode)
-			state.playerHP--;
-		if (overallMinCost >= 0 && costSoFar >= overallMinCost)
+			state = new State(state.effects, state.playerHP - 1, state.bossHP, state.mana);
+		if (minCost >= 0 && costSoFar >= minCost)
 			return -1;
 		if (state.playerHP <= 0)
 			return -1;
@@ -42,19 +39,16 @@ public class Day22
 		if (state.bossHP <= 0)
 			return costSoFar;
 
-		int minCost = -1;
 		for (Spell spell : spells)
 		{
 			State newState = useSpell(state, spell);
 			if (newState != null)
 			{
 				newState = simulateTurn(newState, true); // boss turn
-				int cost = getMinCost(newState, costSoFar + spell.cost);
+				int cost = getMinCost(newState, costSoFar + spell.cost, minCost);
 				if (cost >= 0 && (minCost < 0 || cost < minCost))
 				{
 					minCost = cost;
-					if (overallMinCost < 0 || minCost < overallMinCost)
-						overallMinCost = minCost;
 				}
 			}
 		}
