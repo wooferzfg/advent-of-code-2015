@@ -38,14 +38,14 @@ public class Day22
 		if (state.playerHP <= 0)
 			return -1;
 
-		State afterPlayerTurn = simulateTurn(state, false); // player turn
+		state = simulateTurn(state, false); // player turn
 		if (state.bossHP <= 0)
 			return costSoFar;
 
 		int minCost = -1;
 		for (Spell spell : spells)
 		{
-			State newState = useSpell(afterPlayerTurn, spell);
+			State newState = useSpell(state, spell);
 			if (newState != null)
 			{
 				newState = simulateTurn(newState, true); // boss turn
