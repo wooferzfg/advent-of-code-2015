@@ -7,16 +7,12 @@ import java.util.ArrayList;
 public class Day24
 {
 	public static ArrayList<Integer> weights = new ArrayList<Integer>();
-	public static int totalWeights;
-	public static int numWeights;
 	public static long minQEValue;
 	public static int minGroupSize;
 
 	public static void main(String[] args) throws IOException
 	{
 		addWeights();
-		totalWeights = getSum(weights);
-		numWeights = weights.size();
 
 		getFirstGroupQE(3);
 		System.out.println("Part 1: " + minQEValue);
@@ -45,33 +41,71 @@ public class Day24
 	{
 		minQEValue = -1;
 		minGroupSize = -1;
-		getFirstGroupQE(new ArrayList<Integer>(), numGroups, 0);
+		checkSum(new ArrayList<Integer>(), weights, numGroups, 0, true);
 	}
 
-	public static void getFirstGroupQE(ArrayList<Integer> group, int numGroups, int n)
+	public static boolean checkSum(ArrayList<Integer> group, ArrayList<Integer> remainingWeights, int numGroups, int n, boolean updateMinimums)
 	{
 		int sum = getSum(group);
 		int groupSize = group.size();
 		long groupQE = getQE(group);
+		int totalWeights = getSum(remainingWeights);
 
-		if (sum > totalWeights / numGroups 
-				|| minGroupSize >= 0 && groupSize > minGroupSize
+		if (sum > totalWeights / numGroups)
+			return false;
+		if (updateMinimums)
+		{
+			if (minGroupSize >= 0 && groupSize > minGroupSize 
 				|| groupSize == minGroupSize && minQEValue >= 0 && groupQE >= minQEValue)
-			return;
+				return false;
+		}
 
 		if (sum == totalWeights / numGroups)
 		{
-			minGroupSize = groupSize;
-			minQEValue = groupQE;
+			if (numGroups == 2)
+				return true;
+
+			if (updateMinimums)
+				System.out.println("Checking group: " + group);
+
+			ArrayList<Integer> newWeights = subtractSets(remainingWeights, group);
+			if (checkSum(new ArrayList<Integer>(), newWeights, numGroups - 1, 0, false))
+			{
+				if (updateMinimums)
+				{
+					minGroupSize = groupSize;
+					minQEValue = groupQE;
+				}
+				return true;
+			}
+			return false;
 		}
 
-		if (n < weights.size())
+		if (n < remainingWeights.size())
 		{
-			ArrayList<Integer> newGroup = (ArrayList<Integer>)group.clone();
-			newGroup.add(weights.get(numWeights - n - 1));
-			getFirstGroupQE(newGroup, numGroups, n + 1);
-			getFirstGroupQE(group, numGroups, n + 1);
+			ArrayList<Integer> newGroup = addWeight(group, remainingWeights, n);
+			boolean a = checkSum(newGroup, remainingWeights, numGroups, n + 1, updateMinimums);
+			boolean b = checkSum(group, remainingWeights, numGroups, n + 1, updateMinimums);
+			return a || b;
 		}
+		return false;
+	}
+
+	public static ArrayList<Integer> addWeight(ArrayList<Integer> group, ArrayList<Integer> remainingWeights, int n)
+	{
+		ArrayList<Integer> newGroup = (ArrayList<Integer>)group.clone();
+		newGroup.add(remainingWeights.get(remainingWeights.size() - n - 1));
+		return newGroup;
+	}
+
+	public static ArrayList<Integer> subtractSets(ArrayList<Integer> a, ArrayList<Integer> b)
+	{
+		ArrayList<Integer> newWeights = (ArrayList<Integer>)a.clone();
+		for (int weight : b)
+		{
+			newWeights.remove(new Integer(weight));
+		}
+		return newWeights;
 	}
 
 	public static int getSum(ArrayList<Integer> group)
