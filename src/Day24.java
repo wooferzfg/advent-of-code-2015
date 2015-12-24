@@ -56,7 +56,7 @@ public class Day24
 
 		if (sum > totalWeights / numGroups 
 				|| minGroupSize >= 0 && groupSize > minGroupSize
-				|| groupSize == minGroupSize && minQEValue >= 0 && groupQE > minQEValue)
+				|| groupSize == minGroupSize && minQEValue >= 0 && groupQE >= minQEValue)
 			return;
 
 		if (sum == totalWeights / numGroups)
