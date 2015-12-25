@@ -8,30 +8,26 @@ import java.security.NoSuchAlgorithmException;
 
 public class Day4
 {
-	public static String getMD5(String input)
+	public static MessageDigest md;
+
+	public static int getNumberOfZeros(String input)
 	{
-		try
-		{
-			MessageDigest md = MessageDigest.getInstance("MD5");
-			byte[] messageDigest = md.digest(input.getBytes());
-			BigInteger number = new BigInteger(1, messageDigest);
-			String hashtext = number.toString(16);
-			// Now we need to zero pad it if you actually want the full 32
-			// chars.
-			while (hashtext.length() < 32)
-			{
-				hashtext = "0" + hashtext;
-			}
-			return hashtext;
-		}
-		catch (NoSuchAlgorithmException e)
-		{
-			throw new RuntimeException(e);
-		}
+		byte[] messageDigest = md.digest(input.getBytes());
+		BigInteger number = new BigInteger(1, messageDigest);
+		String hashtext = number.toString(16);
+		return 32 - hashtext.length();
 	}
 
 	public static void main(String[] args) throws IOException
 	{
+		try
+		{
+			md = MessageDigest.getInstance("MD5");
+		}
+		catch (NoSuchAlgorithmException e)
+		{
+		}
+
 		BufferedReader br = new BufferedReader(new FileReader(new File("").getAbsolutePath() + "/bin/day4.txt"));
 		String input = br.readLine();
 		System.out.println("Part 1: " + getNumberForHash(5, input));
@@ -42,13 +38,13 @@ public class Day4
 	public static int getNumberForHash(int zeros, String hash)
 	{
 		int num = 0;
-		String md5;
-		do
+
+		while (true)
 		{
 			num++;
-			md5 = getMD5(hash + num);
+			String cur = hash + num;
+			if (getNumberOfZeros(cur) == zeros)
+				return num;
 		}
-		while (!md5.substring(0, zeros).equals(new String(new char[zeros]).replace("\0", "0")));
-		return num;
 	}
 }
