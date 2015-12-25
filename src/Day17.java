@@ -1,13 +1,37 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+
 public class Day17
 {
-	public static int[] containers = new int[] { 11, 30, 47, 31, 32, 36, 3, 1, 5, 3, 32, 36, 15, 11, 46, 26, 28, 1, 19, 3 };
+	public static ArrayList<Integer> containers;
 	public static int minBits = -1;
 
-	public static void main(String[] args)
+	public static void main(String[] args) throws IOException
 	{
-		int[] bits = new int[containers.length];
+		parseInput();
+		int[] bits = new int[containers.size()];
 		System.out.println("Part 1: " + getNumCombinations(bits, 0, -1));
 		System.out.println("Part 2: " + getNumCombinations(bits, 0, getMinBits(bits, 0)));
+	}
+
+	public static void parseInput() throws IOException
+	{
+		containers = new ArrayList<Integer>();
+		BufferedReader br = new BufferedReader(new FileReader(new File("").getAbsolutePath() + "/bin/day17.txt"));
+		String input;
+		do
+		{
+			input = br.readLine();
+			if (input != null)
+			{
+				containers.add(Integer.parseInt(input));
+			}
+		}
+		while (input != null);
+		br.close();
 	}
 
 	public static int getNumCombinations(int[] bits, int startIndex, int numBits)
@@ -53,9 +77,9 @@ public class Day17
 	public static boolean checkCombination(int[] bits)
 	{
 		int total = 0;
-		for (int x = 0; x < containers.length; x++)
+		for (int x = 0; x < bits.length; x++)
 		{
-			total += bits[x] * containers[x];
+			total += bits[x] * containers.get(x);
 		}
 		return total == 150;
 	}
