@@ -65,9 +65,6 @@ public class Day24
 			if (numGroups == 2)
 				return true;
 
-			if (updateMinimums)
-				System.out.println("Checking group: " + group);
-
 			ArrayList<Integer> newWeights = subtractSets(remainingWeights, group);
 			if (checkSum(new ArrayList<Integer>(), newWeights, numGroups - 1, 0, false))
 			{
@@ -85,7 +82,9 @@ public class Day24
 		{
 			ArrayList<Integer> newGroup = addWeight(group, remainingWeights, n);
 			boolean a = checkSum(newGroup, remainingWeights, numGroups, n + 1, updateMinimums);
-			boolean b = checkSum(group, remainingWeights, numGroups, n + 1, updateMinimums);
+			boolean b = false;
+			if (updateMinimums || !a)
+				b = checkSum(group, remainingWeights, numGroups, n + 1, updateMinimums);
 			return a || b;
 		}
 		return false;
