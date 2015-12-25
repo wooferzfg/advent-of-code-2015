@@ -46,11 +46,6 @@ public class Day25
 
 	public static int sumOfNumbers(int n)
 	{
-		int total = 0;
-		for (int x = 1; x <= n; x++)
-		{
-			total += x;
-		}
-		return total;
+		return n * (n + 1) / 2;
 	}
 }
